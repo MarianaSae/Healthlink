@@ -1,5 +1,5 @@
 # 🏥 Healthlink — Catálogo de Médicos
-### Ciudad Juárez, Chihuahua · 2025
+### Ciudad Juárez, Chihuahua · 2026
 
 ---
 
@@ -21,7 +21,5 @@
 | `ficha_desarrollador.html` | HTML | Ficha de identificación del desarrollador |
 
 ---
-
-## 🚀 INSTRUCCIONES PARA SUBIR A AWARDSPACE
 
 © 2025 Healthlink · healthlink229753.atwebpages.com
