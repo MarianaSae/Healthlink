@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Healthlink — Contacto · Ciudad Juárez</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDETFCBL00"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-JDETFCBL00');
+  </script>
+</head>
+
+<body>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-logo">Health<span>link</span></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="index.php" class="nav-brand">
+      <svg viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#0b4f6c" />
+        <path d="M20 8v24M8 20h24" stroke="#fff" stroke-width="3.5" stroke-linecap="round" />
+      </svg>
+      Health<span>link</span>
+    </a>
+    <button class="nav-hamburger" id="hamburger">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="geolocalizacion.html">Mapa</a>
+      <a href="contacto.html" class="active">Contacto</a>
+      <a href="login.html" class="nav-btn">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <!-- Hero de página -->
+  <div class="page-hero">
+    <h1>Contáctanos</h1>
+    <p>Estamos aquí para ayudarte · Ciudad Juárez, Chihuahua</p>
+  </div>
+
+  <!-- ═══ LAYOUT DE CONTACTO ═══ -->
+  <div class="contact-layout">
+
+    <!-- Info + Redes -->
+    <div>
+      <div class="contact-info-card fade-up" style="margin-bottom:1.5rem">
+        <h3>📍 Información de contacto</h3>
+
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div>
+            <div class="ci-label">Dirección</div>
+            <div class="ci-value">Av. Tecnológico 3400, Col. Partido Romero<br />Ciudad Juárez, Chih. C.P. 32310</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div>
+            <div class="ci-label">Teléfono</div>
+            <div class="ci-value"><a href="tel:+526561001000">(656) 100-1000</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <div>
+            <div class="ci-label">Correo</div>
+            <div class="ci-value"><a href="mailto:info@healthlink.mx">info@healthlink.mx</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div>
+            <div class="ci-label">Horario de atención</div>
+            <div class="ci-value">Lunes a Viernes · 8:00 – 20:00 h<br />Sábados · 9:00 – 14:00 h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Redes sociales -->
+      <div class="contact-info-card fade-up">
+        <h3>🌐 Síguenos en redes</h3>
+        <div class="social-grid">
+          <a class="social-card sc-fb" href="https://facebook.com" target="_blank" rel="noopener">
+            <span class="si">📘</span>Facebook
+          </a>
+          <a class="social-card sc-ig" href="https://instagram.com" target="_blank" rel="noopener">
+            <span class="si">📸</span>Instagram
+          </a>
+          <a class="social-card sc-tw" href="https://twitter.com" target="_blank" rel="noopener">
+            <span class="si">𝕏</span>Twitter/X
+          </a>
+          <a class="social-card sc-wa" href="https://wa.me/526561001000" target="_blank" rel="noopener">
+            <span class="si">💬</span>WhatsApp
+          </a>
+          <a class="social-card sc-yt" href="https://youtube.com" target="_blank" rel="noopener">
+            <span class="si">▶️</span>YouTube
+          </a>
+          <a class="social-card sc-li" href="https://linkedin.com" target="_blank" rel="noopener">
+            <span class="si">💼</span>LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario EmailJS -->
+    <div class="contact-form-card fade-up">
+      <h3>📩 Envíanos un mensaje</h3>
+
+      <div class="alert-box alert-success" id="formSuccess">
+        <span>✅</span><span>¡Mensaje enviado! Te responderemos pronto.</span>
+      </div>
+      <div class="alert-box alert-error" id="formError">
+        <span>⚠️</span><span id="errMsg">Error al enviar. Inténtalo de nuevo.</span>
+      </div>
+
+      <div class="cf-group">
+        <label for="cf-nombre">Nombre completo *</label>
+        <input type="text" id="cf-nombre" placeholder="Tu nombre" />
+        <div class="field-error" id="err-nombre">Campo obligatorio.</div>
+      </div>
+
+      <div class="cf-group">
+        <label for="cf-email">Correo electrónico *</label>
+        <input type="email" id="cf-email" placeholder="tu@correo.com" />
+        <div class="field-error" id="err-email">Ingresa un correo válido.</div>
+      </div>
+
+      <div class="cf-group">
+        <label for="cf-telefono">Teléfono (opcional)</label>
+        <input type="tel" id="cf-telefono" placeholder="(656) 000-0000" />
+      </div>
+
+      <div class="cf-group">
+        <label for="cf-asunto">Asunto *</label>
+        <select id="cf-asunto">
+          <option value="">Selecciona un asunto…</option>
+          <option>Consulta general</option>
+          <option>Agendar cita</option>
+          <option>Registrar consultorio</option>
+          <option>Soporte técnico</option>
+          <option>Otro</option>
+        </select>
+        <div class="field-error" id="err-asunto">Selecciona un asunto.</div>
+      </div>
+
+      <div class="cf-group">
+        <label for="cf-mensaje">Mensaje *</label>
+        <textarea id="cf-mensaje" placeholder="Escribe tu mensaje aquí…" rows="5"></textarea>
+        <div class="field-error" id="err-mensaje">Escribe un mensaje.</div>
+      </div>
+
+      <button class="submit-btn" id="sendBtn" type="button" onclick="sendEmail()">
+        📨 Enviar mensaje
+      </button>
+    </div>
+
+  </div><!-- /contact-layout -->
+
+  <!-- Mapa estático -->
+  <div style="max-width:1000px;margin:0 auto 3rem;padding:0 clamp(1rem,4%,2.5rem)">
+    <div style="border-radius:16px;overflow:hidden;box-shadow:var(--sombra);height:300px">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107640.07792!2d-106.5065!3d31.7220!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86e75d90f3d6789f%3A0x3a7e2da0c5f8c6a0!2sCiudad%20Ju%C3%A1rez%2C%20Chih.!5e0!3m2!1ses!2smx!4v1680000000000!5m2!1ses!2smx"
+        width="100%" height="300" style="border:0" allowfullscreen loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade" title="Mapa Ciudad Juárez"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom" style="max-width:var(--max-w);margin:0 auto">
+      <span>© 2025 Healthlink · <a href="index.php">Inicio</a> · <a href="login.html">Login</a></span>
+      <span>Ciudad Juárez, Chih., México</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ── EmailJS init ── */
+    emailjs.init('aPJLYY7YBgfR5Wwvy');   // ← Tu Public Key
+
+    function sendEmail() {
+      const nombre = document.getElementById('cf-nombre').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const asunto = document.getElementById('cf-asunto').value;
+      const mensaje = document.getElementById('cf-mensaje').value.trim();
+      let ok = true;
+
+      // Ocultar errores previos
+      ['nombre', 'email', 'asunto', 'mensaje'].forEach(f => {
+        document.getElementById('err-' + f).classList.remove('show');
+      });
+      document.getElementById('formSuccess').classList.remove('show');
+      document.getElementById('formError').classList.remove('show');
+
+      if (!nombre) { document.getElementById('err-nombre').classList.add('show'); ok = false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('err-email').classList.add('show'); ok = false; }
+      if (!asunto) { document.getElementById('err-asunto').classList.add('show'); ok = false; }
+      if (!mensaje) { document.getElementById('err-mensaje').classList.add('show'); ok = false; }
+      if (!ok) return;
+
+      const btn = document.getElementById('sendBtn');
+      btn.textContent = '📤 Enviando…'; btn.disabled = true;
+
+      const templateParams = {
+        from_name: nombre,
+        from_email: email,
+        telefono: document.getElementById('cf-telefono').value || 'No proporcionado',
+        asunto: asunto,
+        message: mensaje,
+        to_email: 'info@healthlink.mx'
+      };
+
+      emailjs.send('service_k6t50zs', 'template_4nywtrb', templateParams)
+        .then(() => {
+          document.getElementById('formSuccess').classList.add('show');
+          btn.textContent = '✅ Mensaje enviado'; btn.disabled = false;
+          gtag('event', 'generate_lead', { event_category: 'contact', event_label: asunto });
+          // Limpiar
+          ['cf-nombre', 'cf-email', 'cf-telefono', 'cf-mensaje'].forEach(id => { document.getElementById(id).value = ''; });
+          document.getElementById('cf-asunto').value = '';
+          setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
+          btn.textContent = '📨 Enviar mensaje';
+        })
+        .catch(err => {
+          console.error('EmailJS error:', err);
+          document.getElementById('errMsg').textContent = 'Error al enviar. Verifica tu conexión.';
+          document.getElementById('formError').classList.add('show');
+          btn.textContent = '📨 Enviar mensaje'; btn.disabled = false;
+        });
+    }
+
+    /* ── Navbar ── */
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40); });
+    document.getElementById('hamburger').onclick = () => { document.getElementById('navLinks').classList.toggle('open'); };
+
+    /* ── Fade up ── */
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } }), { threshold: .15 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+    /* ── Loader ── */
+    window.addEventListener('load', () => { const l = document.getElementById('loader'); l.style.opacity = '0'; setTimeout(() => l.remove(), 500); });
+
+    /* ── Toast ── */
+    function toast(msg, type = 'success') {
+      const t = document.getElementById('toast'); t.textContent = msg; t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+  </script>
+</body>
+
+</html>

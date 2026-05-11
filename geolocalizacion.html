@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Healthlink — Médicos Cerca de Ti · Ciudad Juárez</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <style>
+    #mapEl {
+      width: 100%;
+      height: 100%;
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .15);
+    }
+
+    .pop-name {
+      font-weight: 700;
+      font-size: .95rem;
+      margin-bottom: .2rem;
+    }
+
+    .pop-spec {
+      color: #1a7a9a;
+      font-size: .82rem;
+      font-weight: 600;
+      margin-bottom: .4rem;
+    }
+
+    .pop-price {
+      color: #0b4f6c;
+      font-weight: 700;
+      font-size: .88rem;
+    }
+
+    .pop-btn {
+      display: inline-block;
+      margin-top: .5rem;
+      background: #0b4f6c;
+      color: #fff;
+      padding: .35rem .9rem;
+      border-radius: 50px;
+      font-size: .8rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .pop-btn:hover {
+      background: #1a7a9a;
+    }
+  </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDETFCBL00"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-JDETFCBL00');
+  </script>
+</head>
+
+<body>
+
+  <div id="loader">
+    <div class="loader-logo">Health<span>link</span></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="index.php" class="nav-brand">
+      <svg viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#0b4f6c" />
+        <path d="M20 8v24M8 20h24" stroke="#fff" stroke-width="3.5" stroke-linecap="round" />
+      </svg>
+      Health<span>link</span>
+    </a>
+    <button class="nav-hamburger" id="hamburger">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="geolocalizacion.html" class="active">Mapa</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="login.html" class="nav-btn">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <h1>🗺️ Médicos Cerca de Ti</h1>
+    <p>Encuentra especialistas en Ciudad Juárez y Chihuahua en el mapa interactivo</p>
+  </div>
+
+  <!-- Layout geolocalización -->
+  <div class="geo-layout">
+
+    <!-- Sidebar -->
+    <div class="geo-sidebar">
+      <h3>📍 Buscar por ubicación</h3>
+
+      <button class="my-location-btn" id="myLocBtn" onclick="getMyLocation()">
+        🎯 Usar mi ubicación actual
+      </button>
+
+      <div class="geo-search">
+        <input type="text" id="geoSearch" placeholder="Buscar especialidad…" oninput="filterNearby(this.value)" />
+        <button onclick="filterNearby(document.getElementById('geoSearch').value)">🔍</button>
+      </div>
+
+      <div
+        style="font-size:.8rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8rem">
+        Especialistas disponibles
+      </div>
+
+      <div class="nearby-list" id="nearbyList">
+        <!-- Se llena con JS -->
+      </div>
+
+      <div id="distanceInfo"
+        style="display:none;margin-top:1.2rem;padding:1rem;background:var(--gris-claro);border-radius:10px;font-size:.85rem;color:var(--gris)">
+        📡 Distancias calculadas desde tu ubicación
+      </div>
+    </div>
+
+    <!-- Mapa -->
+    <div id="map-container">
+      <div id="mapEl"></div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom" style="max-width:var(--max-w);margin:0 auto">
+      <span>© 2025 Healthlink · <a href="index.php">Inicio</a> · <a href="contacto.html">Contacto</a></span>
+      <span>Ciudad Juárez, Chih., México</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    const DOCTORS = [
+      { id: 1, nombre: 'Dra. Ana Martínez Reyes', esp: 'Cardiología', ciudad: 'Ciudad Juárez', precio: 850, rating: 4.9, foto: 'https://randomuser.me/api/portraits/women/44.jpg', lat: 31.6904, lng: -106.4245 },
+      { id: 2, nombre: 'Dr. Carlos Herrera Soto', esp: 'Pediatría', ciudad: 'Ciudad Juárez', precio: 600, rating: 4.8, foto: 'https://randomuser.me/api/portraits/men/32.jpg', lat: 31.7200, lng: -106.4280 },
+      { id: 3, nombre: 'Dra. Sofía Ramos Luna', esp: 'Dermatología', ciudad: 'Ciudad Juárez', precio: 750, rating: 4.7, foto: 'https://randomuser.me/api/portraits/women/68.jpg', lat: 31.6800, lng: -106.4100 },
+      { id: 4, nombre: 'Dr. Miguel Torres Vidal', esp: 'Neurología', ciudad: 'Chihuahua', precio: 1200, rating: 4.6, foto: 'https://randomuser.me/api/portraits/men/55.jpg', lat: 28.6329, lng: -106.0691 },
+      { id: 5, nombre: 'Dra. Laura Vega Morales', esp: 'Ginecología', ciudad: 'Ciudad Juárez', precio: 900, rating: 4.9, foto: 'https://randomuser.me/api/portraits/women/22.jpg', lat: 31.6950, lng: -106.4350 },
+      { id: 6, nombre: 'Dr. Javier Molina Cruz', esp: 'Traumatología', ciudad: 'Delicias', precio: 1100, rating: 4.5, foto: 'https://randomuser.me/api/portraits/men/77.jpg', lat: 28.1874, lng: -105.4685 },
+      { id: 7, nombre: 'Dra. Patricia León Ríos', esp: 'Psiquiatría', ciudad: 'Ciudad Juárez', precio: 950, rating: 4.8, foto: 'https://randomuser.me/api/portraits/women/55.jpg', lat: 31.6750, lng: -106.4200 },
+      { id: 8, nombre: 'Dr. Roberto Jiménez Paz', esp: 'Oftalmología', ciudad: 'Chihuahua', precio: 700, rating: 4.7, foto: 'https://randomuser.me/api/portraits/men/14.jpg', lat: 28.6400, lng: -106.0750 },
+      { id: 9, nombre: 'Dra. Elena Castillo Ureña', esp: 'Cardiología', ciudad: 'Ciudad Juárez', precio: 1000, rating: 4.6, foto: 'https://randomuser.me/api/portraits/women/33.jpg', lat: 31.6850, lng: -106.4150 },
+      { id: 10, nombre: 'Dr. Andrés Fuentes Nava', esp: 'Pediatría', ciudad: 'Ciudad Juárez', precio: 650, rating: 4.9, foto: 'https://randomuser.me/api/portraits/men/41.jpg', lat: 31.7050, lng: -106.4320 },
+      { id: 11, nombre: 'Dra. María Gutiérrez Sosa', esp: 'Dermatología', ciudad: 'Cuauhtémoc', precio: 680, rating: 4.4, foto: 'https://randomuser.me/api/portraits/women/77.jpg', lat: 28.4138, lng: -106.8665 },
+      { id: 12, nombre: 'Dr. Santiago Pérez Alva', esp: 'Neurología', ciudad: 'Ciudad Juárez', precio: 1050, rating: 4.7, foto: 'https://randomuser.me/api/portraits/men/62.jpg', lat: 31.6970, lng: -106.4380 },
+      { id: 13, nombre: 'Dra. Gabriela Rojo Durán', esp: 'Medicina General', ciudad: 'Ciudad Juárez', precio: 400, rating: 4.85, foto: 'https://randomuser.me/api/portraits/women/88.jpg', lat: 31.6810, lng: -106.4090 },
+      { id: 14, nombre: 'Dr. Eduardo Salas Ponce', esp: 'Nutrición', ciudad: 'Chihuahua', precio: 700, rating: 4.75, foto: 'https://randomuser.me/api/portraits/men/88.jpg', lat: 28.6250, lng: -106.0620 },
+      { id: 15, nombre: 'Dra. Valeria Cruz Talamante', esp: 'Odontología', ciudad: 'Ciudad Juárez', precio: 550, rating: 4.95, foto: 'https://randomuser.me/api/portraits/women/11.jpg', lat: 31.7100, lng: -106.4410 }
+    ];
+
+    /* ── Inicializar mapa ── */
+    const map = L.map('mapEl').setView([31.6904, -106.4245], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Icono personalizado
+    const docIcon = L.divIcon({
+      className: '',
+      html: `<div style="background:#0b4f6c;color:#fff;width:34px;height:34px;border-radius:50%;
+         display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+         box-shadow:0 3px 12px rgba(0,0,0,.3);border:3px solid #fff;">🩺</div>`,
+      iconSize: [34, 34], iconAnchor: [17, 17]
+    });
+
+    const userIcon = L.divIcon({
+      className: '',
+      html: `<div style="background:#e8634a;color:#fff;width:38px;height:38px;border-radius:50%;
+         display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+         box-shadow:0 3px 12px rgba(0,0,0,.3);border:3px solid #fff;animation:pulse2 1.5s infinite;">📍</div>`,
+      iconSize: [38, 38], iconAnchor: [19, 19]
+    });
+
+    let markers = [];
+    let userMarker = null;
+    let userPos = null;
+
+    /* ── Añadir marcadores ── */
+    function addMarkers(doctors) {
+      markers.forEach(m => m.remove());
+      markers = [];
+      doctors.forEach(d => {
+        const m = L.marker([d.lat, d.lng], { icon: docIcon })
+          .addTo(map)
+          .bindPopup(`
+        <div style="min-width:200px">
+          <div style="display:flex;gap:.7rem;align-items:center;margin-bottom:.6rem">
+            <img src="${d.foto}" style="width:44px;height:44px;border-radius:10px;object-fit:cover"
+                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(d.nombre)}&background=0b4f6c&color=fff&size=80'"/>
+            <div>
+              <div class="pop-name">${d.nombre}</div>
+              <div class="pop-spec">${d.esp}</div>
+            </div>
+          </div>
+          <div class="pop-price">$${d.precio.toLocaleString()} MXN · ⭐ ${d.rating}</div>
+          ${d.dist ? `<div style="font-size:.78rem;color:#607d8b;margin-top:.3rem">📏 ${d.dist} km de ti</div>` : ''}
+          <button class="pop-btn" onclick="window.location.href='index.php'">Ver perfil</button>
+        </div>`);
+        markers.push(m);
+      });
+    }
+
+    addMarkers(DOCTORS);
+
+    /* ── Lista lateral ── */
+    function renderList(doctors) {
+      const list = document.getElementById('nearbyList');
+      list.innerHTML = doctors.slice(0, 8).map(d => `
+    <div class="nearby-item" onclick="flyTo(${d.lat},${d.lng},${d.id})">
+      <img src="${d.foto}" alt="${d.nombre}"
+           onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(d.nombre)}&background=0b4f6c&color=fff&size=80'"/>
+      <div>
+        <div class="ni-name">${d.nombre.replace('Dra. ', 'Dra. ').replace('Dr. ', 'Dr. ')}</div>
+        <div class="ni-spec">${d.esp} · ${d.ciudad}</div>
+        <div class="ni-dist">${d.dist ? '📏 ' + d.dist + ' km' : '$' + d.precio.toLocaleString() + ' MXN'}</div>
+      </div>
+    </div>`).join('');
+    }
+    renderList(DOCTORS);
+
+    function flyTo(lat, lng, id) {
+      map.flyTo([lat, lng], 14, { duration: 1.2 });
+      const idx = DOCTORS.findIndex(d => d.id === id);
+      if (idx > -1) setTimeout(() => markers[idx].openPopup(), 1300);
+      gtag('event', 'map_select_doctor', { doctor_id: id });
+    }
+
+    /* ── Filtrar lista ── */
+    function filterNearby(q) {
+      const filtered = q
+        ? DOCTORS.filter(d => d.nombre.toLowerCase().includes(q.toLowerCase()) || d.esp.toLowerCase().includes(q.toLowerCase()))
+        : DOCTORS;
+      addMarkers(filtered);
+      renderList(filtered);
+    }
+
+    /* ── Geolocalización ── */
+    function getMyLocation() {
+      if (!navigator.geolocation) {
+        toast('Tu navegador no soporta geolocalización.', 'error'); return;
+      }
+      const btn = document.getElementById('myLocBtn');
+      btn.textContent = '⏳ Obteniendo ubicación…'; btn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          map.flyTo([userPos.lat, userPos.lng], 13, { duration: 1.4 });
+
+          if (userMarker) userMarker.remove();
+          userMarker = L.marker([userPos.lat, userPos.lng], { icon: userIcon })
+            .addTo(map).bindPopup('<b>📍 Tu ubicación</b>').openPopup();
+
+          // Calcular distancias
+          const withDist = DOCTORS.map(d => {
+            const dist = haversine(userPos.lat, userPos.lng, d.lat, d.lng);
+            return { ...d, dist };
+          }).sort((a, b) => a.dist - b.dist);
+
+          addMarkers(withDist);
+          renderList(withDist);
+          document.getElementById('distanceInfo').style.display = 'block';
+          toast('📍 Ubicación encontrada. Mostrando médicos más cercanos.', 'success');
+          btn.textContent = '🎯 Actualizar mi ubicación'; btn.disabled = false;
+
+          gtag('event', 'geo_location_used');
+        },
+        err => {
+          const msgs = { 1: 'Permiso denegado.', 2: 'Posición no disponible.', 3: 'Tiempo de espera agotado.' };
+          toast('⚠️ ' + (msgs[err.code] || 'Error desconocido.'), 'error');
+          btn.textContent = '🎯 Usar mi ubicación actual'; btn.disabled = false;
+        },
+        { timeout: 10000, enableHighAccuracy: true }
+      );
+    }
+
+    /* ── Fórmula Haversine (distancia en km) ── */
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return Math.round(2 * R * Math.asin(Math.sqrt(a)) * 10) / 10;
+    }
+
+    /* ── Navbar ── */
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40); });
+    document.getElementById('hamburger').onclick = () => { document.getElementById('navLinks').classList.toggle('open'); };
+
+    /* ── Toast ── */
+    function toast(msg, type = 'success') {
+      const t = document.getElementById('toast'); t.textContent = msg; t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    /* ── Loader ── */
+    window.addEventListener('load', () => { const l = document.getElementById('loader'); l.style.opacity = '0'; setTimeout(() => l.remove(), 500); });
+  </script>
+</body>
+
+</html>

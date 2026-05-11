@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Healthlink — Iniciar Sesión</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDETFCBL00"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-JDETFCBL00');
+  </script>
+</head>
+
+<body>
+
+  <div class="login-page">
+
+    <!-- ── Panel izquierdo ── -->
+    <div class="login-visual">
+      <div class="lv-brand">Health<span>link</span></div>
+      <h2 class="lv-headline">Tu salud en buenas manos en Ciudad Juárez</h2>
+      <p class="lv-sub">Conectamos pacientes con los mejores especialistas de la región Chihuahua–El Paso de forma
+        rápida, segura y sin complicaciones.</p>
+      <div class="lv-features">
+        <div class="lv-feature">
+          <div class="lv-icon">🔍</div>Más de 200 doctores verificados
+        </div>
+        <div class="lv-feature">
+          <div class="lv-icon">📅</div>Citas en línea en segundos
+        </div>
+        <div class="lv-feature">
+          <div class="lv-icon">⭐</div>Reseñas reales de pacientes
+        </div>
+        <div class="lv-feature">
+          <div class="lv-icon">🔒</div>Datos 100% seguros y encriptados
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Panel derecho (formulario) ── -->
+    <div class="login-form-wrap">
+      <div class="login-box">
+        <h2>Bienvenido de vuelta</h2>
+        <p class="login-sub">Inicia sesión para acceder al catálogo completo</p>
+
+        <div class="alert-box alert-error" id="loginAlert">
+          <span>⚠️</span><span id="alertMsg">Credenciales incorrectas.</span>
+        </div>
+        <div class="alert-box alert-success" id="loginSuccess">
+          <span>✅</span><span>Sesión iniciada. Redirigiendo…</span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email" />
+          <div class="field-error" id="emailErr">Ingresa un correo válido.</div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrap">
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+            <button class="toggle-pass" id="togglePass" type="button" aria-label="Mostrar contraseña">👁️</button>
+          </div>
+          <div class="field-error" id="passErr">Mínimo 8 caracteres.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="remember"><input type="checkbox" id="rememberMe" /> Recordarme</label>
+          <a href="#" class="link-coral">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button class="login-btn" id="loginBtn" type="button">Iniciar Sesión</button>
+
+        <div class="divider">o continúa con</div>
+
+        <button class="social-login-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335"
+              d="M24 9.5c3.5 0 6.5 1.2 8.9 3.2l6.6-6.6C35.5 2.4 30.1 0 24 0 14.6 0 6.5 5.6 2.6 13.8l7.7 6C12 14 17.6 9.5 24 9.5z" />
+            <path fill="#34A853"
+              d="M46.1 24.6c0-1.6-.1-3.2-.4-4.6H24v8.8h12.4c-.5 2.8-2.1 5.2-4.5 6.8l7 5.4c4.1-3.8 6.5-9.4 6.5-16.4h.7z" />
+            <path fill="#4A90D9"
+              d="M10.3 28.2A14.6 14.6 0 0 1 9.5 24c0-1.4.2-2.8.6-4.1l-7.7-6C.9 16.6 0 20.2 0 24s.9 7.4 2.5 10.5l7.8-6.3z" />
+            <path fill="#FBBC05"
+              d="M24 48c6.1 0 11.3-2 15-5.4l-7-5.4c-2 1.4-4.5 2.2-8 2.2-6.4 0-11.9-4.3-13.8-10.2l-7.8 6.3C6.5 42.4 14.6 48 24 48z" />
+          </svg>
+          Continuar con Google
+        </button>
+
+        <p class="register-link">¿No tienes cuenta? <a href="#">Regístrate gratis</a></p>
+
+        <!-- Demo hint -->
+        <p style="text-align:center;font-size:.78rem;color:#aaa;margin-top:.8rem">
+          Demo: <code>demo@healthlink.mx</code> / <code>password</code>
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /login-page -->
+
+  <script>
+    /* ── Toggle contraseña ── */
+    document.getElementById('togglePass').addEventListener('click', function () {
+      const inp = document.getElementById('password');
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      this.textContent = show ? '🙈' : '👁️';
+    });
+
+    /* ── Helpers ── */
+    function showAlert(id) { document.getElementById(id).classList.add('show'); }
+    function hideAlerts() { ['loginAlert', 'loginSuccess'].forEach(id => document.getElementById(id).classList.remove('show')); }
+    function fieldErr(id, show) { document.getElementById(id).classList.toggle('show', show); }
+
+    /* ── Login ── */
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    ['email', 'password'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    });
+
+    async function doLogin() {
+      hideAlerts();
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('password').value;
+      let ok = true;
+
+      fieldErr('emailErr', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ok = false;
+      fieldErr('passErr', pass.length < 8);
+      if (pass.length < 8) ok = false;
+      if (!ok) return;
+
+      const btn = document.getElementById('loginBtn');
+      btn.textContent = 'Verificando…'; btn.disabled = true;
+
+      try {
+        const res = await fetch('auth.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'login', email, password: pass })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          if (document.getElementById('rememberMe').checked) {
+            localStorage.setItem('hl_user', JSON.stringify(data.data));
+          } else {
+            sessionStorage.setItem('hl_user', JSON.stringify(data.data));
+          }
+          showAlert('loginSuccess');
+          gtag('event', 'login', { method: 'email' });
+          setTimeout(() => { window.location.href = 'index.php'; }, 1200);
+        } else {
+          document.getElementById('alertMsg').textContent = data.msg || 'Credenciales incorrectas.';
+          showAlert('loginAlert');
+          btn.textContent = 'Iniciar Sesión'; btn.disabled = false;
+        }
+      } catch (e) {
+        document.getElementById('alertMsg').textContent = 'Error de red. Inténtalo de nuevo.';
+        showAlert('loginAlert');
+        btn.textContent = 'Iniciar Sesión'; btn.disabled = false;
+      }
+    }
+
+    /* ── Redirigir si ya tiene sesión ── */
+    if (localStorage.getItem('hl_user') || sessionStorage.getItem('hl_user')) {
+      window.location.href = 'index.php';
+    }
+  </script>
+</body>
+
+</html>
