@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Healthlink — Desarrollador</title>
+  <link rel="stylesheet" href="estilo.css"/>
+  <style>
+    body{background:#f7f3ee}
+    .doc-wrap{max-width:760px;margin:2.5rem auto;padding:0 clamp(1rem,4%,2rem)}
+    .ficha-card{background:#fff;border-radius:20px;box-shadow:0 4px 28px rgba(11,79,108,.12);overflow:hidden}
+    .ficha-header{background:linear-gradient(135deg,#0b4f6c,#083a52);padding:2.5rem;text-align:center;color:#fff}
+  .ficha-avatar{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:4px solid rgba(255,255,255,.35);
+  margin:0 auto 1rem;
+  background:#1a7a9a;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ficha-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+    .ficha-name{font-family:'Cormorant Garamond',serif;font-size:1.9rem;margin-bottom:.3rem}
+    .ficha-role{color:rgba(255,255,255,.75);font-size:.95rem}
+    .ficha-body{padding:2rem}
+    .info-row{display:flex;gap:.9rem;align-items:flex-start;padding:.9rem 0;border-bottom:1px solid #ecf2f5}
+    .info-row:last-child{border-bottom:none}
+    .info-icon{width:40px;height:40px;border-radius:10px;background:#ecf2f5;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .info-label{font-size:.78rem;font-weight:700;color:#607d8b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
+    .info-val{font-size:.95rem}
+    .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.4rem}
+    .tech-badge{background:#ecf2f5;color:#0b4f6c;padding:.3rem .7rem;border-radius:50px;font-size:.8rem;font-weight:600;text-align:center}
+    .project-section{background:linear-gradient(135deg,#0b4f6c,#1a7a9a);padding:1.5rem 2rem;color:#fff}
+    .project-section h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:.8rem}
+    .project-links{display:flex;flex-direction:column;gap:.5rem;font-size:.9rem}
+    .project-links a{color:rgba(255,255,255,.85);display:flex;align-items:center;gap:.5rem}
+    .project-links a:hover{color:#fff}
+    .qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:1.5rem 2rem;background:#f7f3ee}
+    .qr-item{background:#fff;border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .qr-placeholder{width:120px;height:120px;margin:0 auto .8rem;background:#ecf2f5;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#0b4f6c;border:2px dashed #dde8ec}
+    .qr-label{font-size:.85rem;font-weight:600;color:#0b4f6c}
+    .qr-sub{font-size:.75rem;color:#607d8b;margin-top:.2rem}
+          
+          
+          
+          .dev-palette{
+  padding: 3rem 1.5rem;
+  background: #F7F3EE;
+  border-radius: 24px;
+  margin: 2rem auto;
+  max-width: 1100px;
+  text-align: center;
+  box-shadow:0 4px 28px rgba(11,79,108,.12);
+}
+
+.dev-palette h2{
+  color: #0b4f6c;
+  margin-bottom: .5rem;
+}
+
+.dev-palette > p{
+  color: #455a64;
+  margin-bottom: 2rem;
+}
+
+.palette-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.color-card{
+  background: #fff;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.color-card span{
+  display: block;
+  width: 100%;
+  height: 90px;
+  border-radius: 14px;
+  margin-bottom: .8rem;
+}
+
+.color-card strong{
+  color: #102030;
+}
+
+.color-card p{
+  color: #607d8b;
+  font-weight: 700;
+  margin: .3rem 0 0;
+}
+          
+        
+ .qr-placeholder img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:18px;
+}         
+          
+          
+          
+  </style>
+</head>
+<body>
+<div class="doc-wrap">
+  <div class="ficha-card">
+
+    <!-- Header -->
+    <div class="ficha-header">
+      <div class="ficha-avatar">
+            <img src="img/mariana.png" alt="">
+      </div>
+      <div class="ficha-name">Yeimy Mariana Saenz Espinoza</div>
+      <div class="ficha-role">Desarrollador Web</div>
+    </div>
+
+    <!-- Información -->
+    <div class="ficha-body">
+      <div class="info-row">
+        <div class="info-icon">🎓</div>
+        <div>
+          <div class="info-label">Universidad</div>
+          <div class="info-val">Universidad Autónoma de Ciudad Juárez (UACJ)</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📚</div>
+        <div>
+          <div class="info-label">Carrera / Materia</div>
+          <div class="info-val">Diseño Digital de Medios Interactivos</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📧</div>
+        <div>
+          <div class="info-label">Correo electrónico</div>
+          <!-- EDITA aquí tu correo -->
+          <div class="info-val"><a href="mailto:tucorreo@uacj.mx">al229753@alumnos.uacj.mx</a></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📅</div>
+        <div>
+          <div class="info-label">Periodo</div>
+          <div class="info-val">Enero – Mayo 2026</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">⚙️</div>
+        <div>
+          <div class="info-label">Tecnologías utilizadas</div>
+          <div class="tech-grid">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">PHP</span>
+            <span class="tech-badge">MySQL</span>
+            <span class="tech-badge">EmailJS</span>
+            <span class="tech-badge">Google Analytics</span>
+            <span class="tech-badge">AwardSpace</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto -->
+    <div class="project-section">
+      <h3>🏥 Proyecto: Healthlink</h3>
+      <div class="project-links">
+        <a href="https://healthlink229753.atwebpages.com/index.html" target="_blank">🌐 https://healthlink229753.atwebpages.com/index.html</a>
+        <!-- EDITA aquí tu repositorio GitHub -->
+        <a href="https://github.com/MarianaSae/Healthlink" target="_blank">📦 https://github.com/MarianaSae/Healthlink</a>
+      </div>
+    </div>
+
+  <!-- QR codes -->
+<div class="qr-grid">
+
+  <div class="qr-item">
+
+    <div class="qr-placeholder">
+      <img src="img/http_healthlink229753_atwebpages_com_ (1).png" alt="🌐">
+    </div>
+
+    <div class="qr-label">QR del Sitio Web</div>
+
+    <div class="qr-sub">
+      healthlink229753.atwebpages.com
+    </div>
+
+  </div>
+
+  <div class="qr-item">
+
+    <div class="qr-placeholder">
+      <img src="img/https_github_com_MarianaSae_Healthlink.jpg" alt="📦">
+    </div>
+
+    <div class="qr-label">QR del Repositorio GitHub</div>
+
+    <div class="qr-sub">
+      github.com/tu-usuario/healthlink
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+        
+        
+        
+        
+        
+                <section class="dev-palette">
+  <h2>Paleta de colores del proyecto</h2>
+  <p>Colores principales utilizados en la identidad visual de Healthlink.</p>
+
+  <div class="palette-grid">
+    <div class="color-card">
+      <span style="background:#0b4f6c;"></span>
+      <strong>Azul médico</strong>
+      <p>#0B4F6C</p>
+    </div>
+
+    <div class="color-card">
+      <span style="background:#1a7a9a;"></span>
+      <strong>Azul secundario</strong>
+      <p>#1A7A9A</p>
+    </div>
+
+    <div class="color-card">
+      <span style="background:#e8634a;"></span>
+      <strong>Coral acento</strong>
+      <p>#E8634A</p>
+    </div>
+
+    <div class="color-card">
+      <span style="background:#F7F3EE;"></span>
+      <strong>Fondo claro</strong>
+      <p>#F7F3EE</p>
+    </div>
+
+    <div class="color-card">
+      <span style="background:#ffffff;border:1px solid #ddd;"></span>
+      <strong>Blanco</strong>
+      <p>#FFFFFF</p>
+    </div>
+
+    <div class="color-card">
+      <span style="background:#455a64;"></span>
+      <strong>Texto gris</strong>
+      <p>#455A64</p>
+    </div>
+  </div>
+        
+        </section> 
+</div>
+
+</body>
+</html>

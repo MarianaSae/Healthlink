@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Healthlink — Diccionario de Datos</title>
+  <link rel="stylesheet" href="estilo.css"/>
+  <style>
+    body{background:#f7f3ee}
+    .doc-wrap{max-width:960px;margin:2.5rem auto;padding:0 clamp(1rem,4%,2rem)}
+    .doc-card{background:#fff;border-radius:16px;box-shadow:0 4px 28px rgba(11,79,108,.1);padding:2.2rem;margin-bottom:2rem}
+    .doc-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#0b4f6c;margin-bottom:.4rem}
+    .doc-sub{color:#607d8b;font-size:.9rem;margin-bottom:2rem}
+    h2{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#0b4f6c;margin:1.6rem 0 1rem;border-left:4px solid #e8634a;padding-left:.8rem}
+    table{width:100%;border-collapse:collapse;font-size:.88rem}
+    th{background:#0b4f6c;color:#fff;padding:.6rem .9rem;text-align:left;font-weight:600}
+    td{padding:.55rem .9rem;border-bottom:1px solid #ecf2f5;vertical-align:top}
+    tr:nth-child(even) td{background:#f7fbfc}
+    .badge{display:inline-block;padding:.18rem .6rem;border-radius:50px;font-size:.72rem;font-weight:700}
+    .pk{background:#fff3cd;color:#856404}
+    .fk{background:#d1ecf1;color:#0c5460}
+    .nn{background:#f8d7da;color:#721c24}
+  </style>
+</head>
+<body>
+
+<div class="doc-wrap">
+  <div class="doc-card">
+    <div class="doc-title">📘 Diccionario de Datos</div>
+    <div class="doc-sub">Healthlink · Catálogo de Médicos · Ciudad Juárez, Chihuahua · 2025</div>
+
+    <!-- ciudades -->
+    <h2>Tabla: ciudades</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span> AUTO_INCREMENT</td><td>Identificador único de la ciudad</td></tr>
+      <tr><td>nombre</td><td>VARCHAR(100)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre de la ciudad (ej: Ciudad Juárez)</td></tr>
+      <tr><td>estado</td><td>VARCHAR(100)</td><td>DEFAULT 'Chihuahua'</td><td>Estado/provincia de la ciudad</td></tr>
+      <tr><td>lat</td><td>DECIMAL(10,7)</td><td>NULL</td><td>Latitud geográfica (para mapas)</td></tr>
+      <tr><td>lng</td><td>DECIMAL(10,7)</td><td>NULL</td><td>Longitud geográfica (para mapas)</td></tr>
+    </table>
+
+    <!-- especialidades -->
+    <h2>Tabla: especialidades</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span></td><td>Identificador único</td></tr>
+      <tr><td>nombre</td><td>VARCHAR(100)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre de la especialidad médica</td></tr>
+      <tr><td>icono</td><td>VARCHAR(10)</td><td>DEFAULT '🏥'</td><td>Emoji representativo de la especialidad</td></tr>
+    </table>
+
+    <!-- doctores -->
+    <h2>Tabla: doctores</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span></td><td>Identificador único del médico</td></tr>
+      <tr><td>nombre</td><td>VARCHAR(150)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre completo incluyendo título (Dr./Dra.)</td></tr>
+      <tr><td>especialidad_id</td><td>INT(11)</td><td><span class="badge fk">FK</span> especialidades</td><td>Referencia a la especialidad médica</td></tr>
+      <tr><td>ciudad_id</td><td>INT(11)</td><td><span class="badge fk">FK</span> ciudades</td><td>Ciudad donde ejerce el médico</td></tr>
+      <tr><td>genero</td><td>ENUM('M','F')</td><td><span class="badge nn">NOT NULL</span></td><td>Género del médico: M=Masculino, F=Femenino</td></tr>
+      <tr><td>foto</td><td>VARCHAR(255)</td><td>NULL</td><td>URL o ruta de la fotografía del médico</td></tr>
+      <tr><td>cedula</td><td>VARCHAR(60)</td><td>NULL</td><td>Número de cédula profesional</td></tr>
+      <tr><td>universidad</td><td>VARCHAR(150)</td><td>NULL</td><td>Universidad de egreso</td></tr>
+      <tr><td>anios_exp</td><td>TINYINT(3)</td><td>DEFAULT 0</td><td>Años de experiencia profesional</td></tr>
+      <tr><td>bio</td><td>TEXT</td><td>NULL</td><td>Descripción biográfica del médico</td></tr>
+      <tr><td>horario</td><td>VARCHAR(100)</td><td>DEFAULT 'Lun–Vie'</td><td>Horario de atención en texto libre</td></tr>
+      <tr><td>telefono</td><td>VARCHAR(30)</td><td>NULL</td><td>Teléfono de contacto del consultorio</td></tr>
+      <tr><td>email</td><td>VARCHAR(150)</td><td>NULL</td><td>Correo electrónico profesional</td></tr>
+      <tr><td>modalidad</td><td>VARCHAR(80)</td><td>DEFAULT 'presencial'</td><td>Tipo de consulta: presencial, online, urgencias</td></tr>
+      <tr><td>precio_consulta</td><td>DECIMAL(8,2)</td><td><span class="badge nn">NOT NULL</span></td><td>Precio en MXN por consulta estándar</td></tr>
+      <tr><td>rating</td><td>DECIMAL(3,2)</td><td>DEFAULT 0.00</td><td>Calificación promedio de 0.00 a 5.00</td></tr>
+      <tr><td>total_reseñas</td><td>INT(11)</td><td>DEFAULT 0</td><td>Número total de reseñas recibidas</td></tr>
+      <tr><td>lat</td><td>DECIMAL(10,7)</td><td>NULL</td><td>Latitud del consultorio para mapa</td></tr>
+      <tr><td>lng</td><td>DECIMAL(10,7)</td><td>NULL</td><td>Longitud del consultorio para mapa</td></tr>
+      <tr><td>activo</td><td>TINYINT(1)</td><td>DEFAULT 1</td><td>1=activo en catálogo, 0=inactivo/eliminado</td></tr>
+      <tr><td>created_at</td><td>TIMESTAMP</td><td>CURRENT_TIMESTAMP</td><td>Fecha y hora de registro en el sistema</td></tr>
+    </table>
+
+    <!-- usuarios -->
+    <h2>Tabla: usuarios</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span></td><td>Identificador único del usuario</td></tr>
+      <tr><td>nombre</td><td>VARCHAR(150)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre completo del usuario</td></tr>
+      <tr><td>email</td><td>VARCHAR(150)</td><td><span class="badge nn">NOT NULL</span> UNIQUE</td><td>Correo electrónico (clave de acceso)</td></tr>
+      <tr><td>password</td><td>VARCHAR(255)</td><td><span class="badge nn">NOT NULL</span></td><td>Hash bcrypt (costo 12) de la contraseña</td></tr>
+      <tr><td>rol</td><td>ENUM</td><td>DEFAULT 'paciente'</td><td>Rol: paciente, admin, doctor</td></tr>
+      <tr><td>activo</td><td>TINYINT(1)</td><td>DEFAULT 1</td><td>1=cuenta activa, 0=suspendida</td></tr>
+      <tr><td>fecha_registro</td><td>TIMESTAMP</td><td>CURRENT_TIMESTAMP</td><td>Fecha de creación de la cuenta</td></tr>
+      <tr><td>ultimo_acceso</td><td>TIMESTAMP</td><td>NULL</td><td>Fecha y hora del último inicio de sesión</td></tr>
+    </table>
+
+    <!-- citas -->
+    <h2>Tabla: citas</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span></td><td>Identificador único de la cita</td></tr>
+      <tr><td>doctor_id</td><td>INT(11)</td><td><span class="badge fk">FK</span> doctores</td><td>Doctor al que se agenda la cita</td></tr>
+      <tr><td>paciente_nombre</td><td>VARCHAR(150)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre del paciente</td></tr>
+      <tr><td>paciente_email</td><td>VARCHAR(150)</td><td>NULL</td><td>Correo de confirmación del paciente</td></tr>
+      <tr><td>fecha</td><td>DATE</td><td><span class="badge nn">NOT NULL</span></td><td>Fecha de la cita (YYYY-MM-DD)</td></tr>
+      <tr><td>hora</td><td>TIME</td><td><span class="badge nn">NOT NULL</span></td><td>Hora de la cita (HH:MM:SS)</td></tr>
+      <tr><td>motivo</td><td>TEXT</td><td>NULL</td><td>Motivo o descripción del padecimiento</td></tr>
+      <tr><td>estado</td><td>ENUM</td><td>DEFAULT 'pendiente'</td><td>pendiente, confirmada, cancelada, completada</td></tr>
+      <tr><td>creado_en</td><td>TIMESTAMP</td><td>CURRENT_TIMESTAMP</td><td>Fecha y hora de creación del registro</td></tr>
+    </table>
+
+    <!-- reseñas -->
+    <h2>Tabla: resenias</h2>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Restricción</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>INT(11)</td><td><span class="badge pk">PK</span></td><td>Identificador único</td></tr>
+      <tr><td>doctor_id</td><td>INT(11)</td><td><span class="badge fk">FK</span> doctores</td><td>Doctor que recibe la reseña</td></tr>
+      <tr><td>usuario_id</td><td>INT(11)</td><td>NULL</td><td>Usuario que escribe (puede ser anónimo)</td></tr>
+      <tr><td>nombre</td><td>VARCHAR(100)</td><td><span class="badge nn">NOT NULL</span></td><td>Nombre del reseñador</td></tr>
+      <tr><td>calificacion</td><td>TINYINT(1)</td><td>1–5</td><td>Calificación del 1 (malo) al 5 (excelente)</td></tr>
+      <tr><td>comentario</td><td>TEXT</td><td>NULL</td><td>Comentario escrito de la experiencia</td></tr>
+      <tr><td>fecha</td><td>TIMESTAMP</td><td>CURRENT_TIMESTAMP</td><td>Fecha de publicación de la reseña</td></tr>
+    </table>
+
+    <div style="margin-top:2rem;padding:1.2rem;background:#e8f5f2;border-radius:10px;font-size:.88rem;color:#0a4035">
+      <strong>Convenciones:</strong>
+      <span class="badge pk" style="margin:0 .3rem">PK</span> Llave primaria &nbsp;
+      <span class="badge fk" style="margin:0 .3rem">FK</span> Llave foránea &nbsp;
+      <span class="badge nn" style="margin:0 .3rem">NOT NULL</span> Campo obligatorio
+    </div>
+  </div>
+</div>
+</body>
+</html>

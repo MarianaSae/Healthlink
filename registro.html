@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Registro | Healthlink</title>
+  <link rel="stylesheet" href="estilo.css"/>
+        
+        <style>
+                .login-page .login-visual{
+  background: linear-gradient(180deg, #0b4f6c 0%, #083a52 100%) !important;
+  color: white !important;
+}
+
+.login-page .login-visual *{
+  color: white !important;
+}
+
+.login-page .login-visual .lv-brand span{
+  color: #e8634a !important;
+}
+
+.login-page .login-visual .lv-point span{
+  color: white !important;
+}
+    
+.login-visual h1{
+  font-family:'Cormorant Garamond', serif !important;
+  font-weight:700 !important;
+  font-size:clamp(2.8rem,5vw,4.2rem) !important;
+  line-height:1.15 !important;
+  max-width:760px !important;
+}
+
+.login-visual p{
+  font-size:1.05rem !important;
+  line-height:1.75 !important;
+  max-width:520px !important;
+  color:rgba(255,255,255,.82) !important;
+}
+
+.lv-points{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:1.2rem !important;
+  margin-top:3rem !important;
+}
+
+.lv-point{
+  display:flex !important;
+  align-items:center !important;
+  gap:1rem !important;
+  color:#fff !important;
+  font-weight:700 !important;
+}
+
+.lv-point span{
+  width:48px !important;
+  height:48px !important;
+  border-radius:14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:rgba(255,255,255,.12) !important;
+}               
+                
+                
+                </style>
+</head>
+<body>
+
+<div class="login-page">
+
+  <section class="login-visual">
+  <a href="index.html" class="lv-brand">
+  Health<span>link</span>
+</a>
+
+  <h1>Tu salud en buenas manos en Ciudad Juárez</h1>
+
+  <p>
+    Crea tu cuenta para encontrar especialistas verificados,
+    agendar citas y acceder al catálogo completo.
+  </p>
+
+  <div class="lv-points">
+    <div class="lv-point"><span>🔍</span> Más de 200 doctores verificados</div>
+    <div class="lv-point"><span>📅</span> Citas en línea en segundos</div>
+    <div class="lv-point"><span>⭐</span> Reseñas reales de pacientes</div>
+    <div class="lv-point"><span>🔒</span> Datos 100% seguros y encriptados</div>
+  </div>
+</section>
+
+  <section class="login-form-wrap">
+    <div class="login-box">
+
+      <h1>Crear cuenta</h1>
+      <p class="login-subtitle">Regístrate para acceder al catálogo completo</p>
+
+      <div class="alert" id="registerMsg" style="display:none;"></div>
+
+      <form id="registerForm">
+
+        <div class="form-group">
+          <label for="name">Nombre completo</label>
+          <input type="text" id="name" placeholder="Tu nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@correo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrap">
+            <input type="password" id="password" placeholder="Mínimo 8 caracteres" required>
+            <button type="button" class="toggle-pass" onclick="toggleRegisterPass()">👁️</button>
+          </div>
+        </div>
+
+        <button class="login-btn" type="submit">Crear cuenta</button>
+
+      </form>
+
+      <p class="register-link">
+        ¿Ya tienes cuenta?
+        <a href="login.html">Inicia sesión</a>
+      </p>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+function toggleRegisterPass(){
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+document.getElementById('registerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const msg = document.getElementById('registerMsg');
+
+  const data = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    password: document.getElementById('password').value.trim()
+  };
+
+  if(data.password.length < 8){
+    msg.style.display = 'block';
+    msg.className = 'alert error';
+    msg.textContent = '⚠️ La contraseña debe tener mínimo 8 caracteres.';
+    return;
+  }
+
+  try{
+    const res = await fetch('registro.php', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if(!result.ok){
+      msg.style.display = 'block';
+      msg.className = 'alert error';
+      msg.textContent = '⚠️ ' + (result.message || result.error || 'No se pudo crear la cuenta.');
+      return;
+    }
+
+    msg.style.display = 'block';
+    msg.className = 'alert success';
+    msg.textContent = '✅ Cuenta creada correctamente. Redirigiendo...';
+
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1200);
+
+  }catch(error){
+    msg.style.display = 'block';
+    msg.className = 'alert error';
+    msg.textContent = '⚠️ Error de red. Inténtalo de nuevo.';
+  }
+});
+</script>
+
+</body>
+</html>

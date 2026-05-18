@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Map — Healthlink</title>
+<link rel="stylesheet" href="estilo.css">
+
+<style>
+body{
+  margin:0;
+  background:#f7f3ee;
+  font-family:Poppins, Arial, sans-serif;
+  color:#102030;
+}
+
+.sitemap-page{
+  padding:3rem 2rem;
+  text-align:center;
+  overflow-x:auto;
+}
+
+.sitemap-title h1{
+  margin:0;
+  color:#0b4f6c;
+  font-size:2.4rem;
+}
+
+.sitemap-title p{
+  color:#607d8b;
+  margin:.4rem 0 2.5rem;
+}
+
+.sitemap{
+  min-width:1150px;
+  position:relative;
+  padding:1rem 0 3rem;
+}
+
+.node{
+  width:170px;
+  height:95px;
+  background:#fff;
+  border:2px solid #102030;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:800;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+}
+
+.main-node{
+  margin:0 auto;
+  width:190px;
+  height:110px;
+  flex-direction:column;
+}
+
+.main-node span{
+  color:#e8634a;
+}
+
+.vertical-main{
+  width:2px;
+  height:55px;
+  background:#555;
+  margin:0 auto;
+}
+
+.horizontal-line{
+  width:92%;
+  height:2px;
+  background:#555;
+  margin:0 auto;
+}
+
+.top-row{
+  display:grid;
+  grid-template-columns:repeat(7, 170px);
+  gap:32px;
+  justify-content:center;
+  margin-top:2rem;
+  position:relative;
+}
+
+.top-item{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+
+.top-item::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:50%;
+  width:2px;
+  height:0;
+  background:transparent;
+}
+.sub-row{
+  display:grid;
+  grid-template-columns:170px 170px;
+  gap:32px;
+  justify-content:center;
+  margin-top:28px;
+  position:relative;
+}
+
+.sub-row .node{
+  height:90px;
+}
+
+.system-divider{
+  border-top:2px dashed #c8c8c8;
+  margin:3.2rem auto 2rem;
+  width:95%;
+}
+
+.system-row{
+  display:grid;
+  grid-template-columns:repeat(2,170px);
+  gap:32px;
+  justify-content:center;
+}
+
+.legend{
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+}
+
+.legend span{
+  background:#fff;
+  border:1px solid #d8e2e8;
+  padding:.5rem .9rem;
+  border-radius:999px;
+  font-size:.85rem;
+  color:#455a64;
+}
+
+.back-btn{
+  display:inline-block;
+  margin-top:2rem;
+  background:#0b4f6c;
+  color:#fff;
+  text-decoration:none;
+  padding:.9rem 1.4rem;
+  border-radius:999px;
+  font-weight:700;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sitemap-page">
+
+  <div class="sitemap-title">
+    <h1>Site Map — Healthlink</h1>
+  </div>
+
+
+  <div class="sitemap">
+
+    <div class="node main-node">
+      <div>PÁGINA PRINCIPAL</div>
+      <div>Health<span>link</span></div>
+    </div>
+
+    <div class="vertical-main"></div>
+    <div class="horizontal-line"></div>
+
+    <div class="top-row">
+      <div class="top-item"><div class="node">INICIO</div></div>
+      <div class="top-item"><div class="node">ESPECIALIDADES</div></div>
+      <div class="top-item"><div class="node">DOCTORES</div></div>
+      <div class="top-item"><div class="node">CITAS</div></div>
+      <div class="top-item"><div class="node">CONTACTO</div></div>
+      <div class="top-item"><div class="node">MAPA</div></div>
+      <div class="top-item"><div class="node">MI CUENTA</div></div>
+    </div>
+
+    <div class="sub-row">
+      <div class="node">PERFIL DEL DOCTOR</div>
+      <div class="node">AGENDAR CITA</div>
+    </div>
+
+    <div class="system-divider"></div>
+
+    <div class="system-row">
+      <div class="node">INICIAR SESIÓN</div>
+      <div class="node">REGISTRARSE</div>
+    </div>
+
+  </div>
+
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
+
+</div>
+
+</body>
+</html>

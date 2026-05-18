@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi Perfil | Healthlink</title>
+
+    <link rel="stylesheet" href="perfil.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>Health</span>link
+        </div>
+
+        <div class="profile-mini">
+            <img id="avatarMini" src="https://ui-avatars.com/api/?background=0b4f6c&color=fff&size=200" alt="">
+
+            <h3 id="userMiniName">Usuario</h3>
+            <p>Paciente Premium</p>
+        </div>
+
+        <nav class="menu">
+
+            <a href="index.html" class="active">
+                🏠 Inicio
+            </a>
+
+            <a href="#appointmentsContainer">
+                📅 Mis citas
+            </a>
+
+            <a href="index.html#buscar">
+                🔍 Buscar médicos
+            </a>
+
+            <a href="#">
+                ❤️ Favoritos
+            </a>
+
+            <a href="#">
+                ⚙️ Configuración
+            </a>
+
+        </nav>
+
+        <button class="logout-btn" onclick="logout()">
+            Cerrar sesión
+        </button>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>👋 Bienvenido de nuevo</h1>
+                <p>Gestiona tus citas y especialistas desde un solo lugar.</p>
+                <a href="index.html#buscar" class="buscar-btn">
+                    🔍 Buscar especialistas
+                </a>
+            </div>
+
+            <div class="top-actions">
+                <button class="top-btn">🔔</button>
+                <button class="top-btn">💬</button>
+            </div>
+
+        </header>
+
+        <!-- STATS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <h2>12</h2>
+                <p>Citas realizadas</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>4</h2>
+                <p>Médicos favoritos</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>3</h2>
+                <p>Próximas consultas</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>98%</h2>
+                <p>Satisfacción</p>
+            </div>
+
+        </section>
+
+        <!-- PROFILE -->
+        <section class="profile-card">
+
+            <div class="profile-header">
+
+                <img id="avatar" src="https://ui-avatars.com/api/?background=0b4f6c&color=fff&size=200" alt="">
+
+                <div>
+                    <h2 id="userName">Usuario</h2>
+                    <span class="badge">Paciente Verificado</span>
+                </div>
+
+            </div>
+
+            <div class="profile-grid">
+
+                <div class="info-box">
+                    <label>Correo electrónico</label>
+                    <p id="userEmail">correo@ejemplo.com</p>
+                </div>
+
+                <div class="info-box">
+                    <label>Ciudad</label>
+                    <p>Ciudad Juárez</p>
+                </div>
+
+                <div class="info-box">
+                    <label>Membresía</label>
+                    <p>Premium</p>
+                </div>
+
+                <div class="info-box">
+                    <label>Registro</label>
+                    <p>Enero 2025</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- APPOINTMENTS -->
+        <section class="appointments">
+
+            <div class="section-title">
+                <h2>📅 Próximas citas</h2>
+                <button>Ver todas</button>
+            </div>
+
+            <div id="appointmentsContainer">
+
+            </div>
+
+
+
+        </section>
+
+    </main>
+
+    <script>
+
+        const user =
+            JSON.parse(localStorage.getItem('hl_user')
+                || sessionStorage.getItem('hl_user'));
+
+        if (!user) {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('userName').textContent =
+            user.name || user.nombre;
+
+        document.getElementById('userMiniName').textContent =
+            user.name || user.nombre;
+
+        document.getElementById('userEmail').textContent =
+            user.email;
+
+        const avatar =
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.nombre)}&background=0b4f6c&color=fff&size=200`;
+
+        document.getElementById('avatar').src = avatar;
+        document.getElementById('avatarMini').src = avatar;
+
+        function logout() {
+
+            localStorage.removeItem('hl_user');
+            sessionStorage.removeItem('hl_user');
+
+            window.location.href = 'login.html';
+        }
+
+        loadAppointments();
+
+        async function loadAppointments() {
+
+            try {
+
+                const res = await fetch(
+                    `obtener_citas.php?usuario_id=${user.id}&email=${encodeURIComponent(user.email || '')}`
+                );
+
+                const data = await res.json();
+
+                const container =
+                    document.getElementById('appointmentsContainer');
+
+                if (!data.ok || !data.data.length) {
+
+                    container.innerHTML =
+                        `<p>No tienes citas agendadas.</p>`;
+
+                    return;
+                }
+
+                container.innerHTML =
+                    data.data.map(c => `
+
+        <div class="appointment-card">
+
+            <img src="${c.doctor_foto || 'https://ui-avatars.com/api/?name=Doctor&background=0b4f6c&color=fff'}">
+
+            <div>
+                <h3>${c.doctor_nombre || 'Doctor'}</h3>
+                <p>${c.especialidad || 'Consulta médica'} · ${c.fecha}</p>
+            </div>
+
+            <div class="appointment-date">
+                ${c.hora}
+            </div>
+
+        </div>
+
+        `).join('');
+
+            } catch (err) {
+
+                console.log(err);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
